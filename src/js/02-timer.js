@@ -6,10 +6,10 @@ import "flatpickr/dist/flatpickr.min.css";
 
 const startBtn = document.querySelector("button[data-start]");
 const input = document.querySelector("#datetime-picker");
-const Days = document.querySelector("span[data-days]");
-const Hourse = document.querySelector("span[data-hours]");
-const Minutes = document.querySelector("span[data-minutes]");
-const Seconds = document.querySelector("span[data-seconds]")
+const inputDays = document.querySelector("span[data-days]");
+const inputHourse = document.querySelector("span[data-hours]");
+const inputMinutes = document.querySelector("span[data-minutes]");
+const inputSeconds = document.querySelector("span[data-seconds]")
 
 const options = {
   enableTime: true,
@@ -32,18 +32,23 @@ flatpickr("#datetime-picker", options);
 startBtn.addEventListener("click", time);
 
 function time() {
-setInterval(() => {
+const id = setInterval(() => {
     const currentDate = new Date();
     const selectedDate = new Date(input.value);
     startBtn.disabled = false;
     const diference = selectedDate - currentDate;
     // console.log(diference)
+    if(diference <= 0){
+      clearInterval(id)
+    }else{
+    startBtn.disabled = true;
+    
     const { days, hours, minutes, seconds } = convertMs(diference);
-    Days.textContent = addLeadingZero(days);
-    Hourse.textContent = addLeadingZero(hours);
-    Minutes.textContent = addLeadingZero(minutes);
-    Seconds.textContent = addLeadingZero(seconds);
-
+    inputDays.textContent = addLeadingZero(days);
+    inputHourse.textContent = addLeadingZero(hours);
+    inputMinutes.textContent = addLeadingZero(minutes);
+    inputSeconds.textContent = addLeadingZero(seconds);
+    }
     }, 1000)
 
 
